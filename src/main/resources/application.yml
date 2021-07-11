@@ -1,0 +1,187 @@
+
+server:
+  port: 8080
+  servlet:
+    context-path: '/'
+  compression:
+    enabled: true
+    mime-types: 'text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json'
+    min-response-size: 1024
+  http2:
+    enabled: true
+
+spring:
+  main:
+    lazy-initialization: true
+
+  profiles:
+    active: 'dev'
+    hikari:
+      connectionTimeout: 30000
+      idleTimeout: 600000
+      maxLifetime: 1800000
+      maximum-pool-size: 5
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      naming-strategy: 'org.hibernate.cfg.EJB3NamingStrategy'
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: 'org.hibernate.dialect.MySQL57Dialect'
+
+  data:
+    rest:
+      defaultMediaType: 'application/json'
+      return-body-on-create: true
+      basePath: '/api/1.0'
+      detection-strategy: annotated
+
+  jackson:
+    property-naming-strategy: 'LOWER_CAMEL_CASE'
+    default-property-inclusion: non_null
+    date-format: 'com.fasterxml.jackson.databind.util.ISO8601DateFormat'
+    time-zone: 'CAT' # Central Africa Time UTC+02:00
+    serialization:
+      indent_output: true
+      write-dates-as-timestamps: true
+      write-dates-with-zone-id: true
+      fail-on-empty-beans: false
+
+  mvc:
+    throw-exception-if-no-handler-found: true
+
+  web:
+    resources:
+      add-mappings: true
+      cache:
+        period: 31536000
+        cachecontrol:
+          max-age: 31536000
+      chain:
+        enabled: true
+        strategy:
+          content:
+            enabled: true
+            paths: '/webjars/swagger-ui/**.*'
+
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+
+logging:
+  pattern:
+    console: '%date{dd MMM yyyy;HH:mm:ss.SSS} %level = %line: %logger{20} - %msg%n'
+    file: '%-30(%d{HH:mm:ss.SSS} [%thread]) %-5level %logger{32} - %msg%n'
+
+springdoc:
+  version: '@springdoc.version@'
+  api-docs:
+    path: '/api-docs'
+    groups:
+      enabled: true
+    enabled: true
+  swagger-ui:
+    path: '/swagger-ui.html'
+    display-request-duration: true
+    groups-order: 'DESC'
+    operationsSorter: 'method'
+    disable-swagger-default-url: true
+    enabled: true
+  show-actuator: true
+
+---
+# Development Spring Profile
+# You can also set the profile using a SPRING_PROFILES_ACTIVE environment variable
+#  or a spring.profiles.active system property.
+spring:
+  config:
+    activate:
+      on-profile: 'dev'
+
+  datasource:
+    url: 'jdbc:mysql://localhost:3306/nematech'
+    username: 'sa'
+    password: 'password'
+
+  h2:
+    console:
+      enabled: true
+      path: '/h2-console'
+      settings:
+        trace: false
+        web-allow-others: true
+
+  artemis:
+    mode: embedded
+
+  mail:
+    host: '127.0.0.1'
+    port: 1025
+
+  flyway:
+    locations:
+      - 'classpath:/db/migration'
+      - 'classpath:/db/h2-only-sql'
+      - 'classpath:/db/test-data'
+      - 'classpath:/db/profile/dev'
+    enabled: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql: trace
+      flywaydb:
+        core:
+          internal:
+            sqlscript: error
+---
+# Test
+server:
+  forward-headers-strategy: native
+
+spring:
+  config:
+    activate:
+      on-profile: 'test'
+
+  datasource:
+    url: 'jdbc:mysql://localhost:3306/nematech'
+    driver-class-name: 'com.mysql.cj.jdbc.Driver'
+    username: 'root'
+    password: 'password'
+
+  h2:
+    console:
+      enabled: true
+      path: '/h2-console'
+      settings:
+        trace: false
+        web-allow-others: true
+
+  artemis:
+    broker-url: tcp://localhost:61616
+    mode: native
+
+  mail:
+    host: '127.0.0.1'
+    port: 1025
+
+  flyway:
+    locations:
+      - 'classpath:/db/migration'
+      - 'classpath:/db/mysql-only-sql'
+      - 'classpath:/db/test-data'
+      - 'classpath:/db/profile/test'
+    enabled: true
+
+  swagger-ui:
+    enabled: false
+
