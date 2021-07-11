@@ -26,6 +26,9 @@ public class Candidate extends BaseEntity {
   @Column(name = "name")
   private String qualification;
 
+  @Column(name = "idnumber")
+  private String idNumber;
+
   @Column(name = "candidatecategory")
   private JobCategory name;
 
