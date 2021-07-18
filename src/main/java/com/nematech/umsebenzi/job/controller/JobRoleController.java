@@ -33,8 +33,6 @@ public class JobRoleController {
 
     log.info("New Registration : {} ", jobRoleDTOList);
 
-
-
     if (!Objects.isNull(jobRoleDTOList)) {
        jobRoleService.createJobRole(jobRoleDTOList);
       return new ResponseEntity<>(  HttpStatus.CREATED);
