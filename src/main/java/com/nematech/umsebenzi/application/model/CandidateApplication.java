@@ -2,6 +2,7 @@ package com.nematech.umsebenzi.application.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.nematech.umsebenzi.common.BaseEntity;
+import com.nematech.umsebenzi.enums.ApplicationStatus;
 import com.nematech.umsebenzi.enums.JobCategory;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,5 +32,8 @@ public class CandidateApplication extends BaseEntity {
 
   @Column(name = "skillName", nullable = true)
   private LocalDateTime applicationDateTime;
+
+  @Column(name = "status", nullable = true)
+  private ApplicationStatus applicationStatus;
 
 }

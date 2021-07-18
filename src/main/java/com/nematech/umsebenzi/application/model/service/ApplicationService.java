@@ -10,4 +10,6 @@ ApplicationDTO createApplication(ApplicationDTO applicationDTO);
 List<ApplicationDTO> getJobApplications(String jobReferenceNo);
 List<ApplicationDTO>getCandidateApplications(String candidateId);
 List<ApplicationDTO>getAllApplications();
+  ApplicationDTO updateApplicationStatus(ApplicationDTO applicationDTO, Long applicationId);
+
 }

@@ -46,6 +46,18 @@ public class ApplicationServiceImpl implements ApplicationService {
     return getApplicationListDTO(applicationRepository.findAll());
   }
 
+  @Override
+  public ApplicationDTO updateApplicationStatus(ApplicationDTO applicationDTO, Long applicationId) {
+
+    log.debug("New Update for application"+ applicationDTO);
+
+     CandidateApplication candidateApplication = getApplication(applicationDTO);
+     candidateApplication.setId(applicationId);
+
+     return getApplicationDTO(applicationRepository.save(candidateApplication));
+
+  }
+
   public CandidateApplication getApplication(ApplicationDTO applicationDTO ){
 
     CandidateApplication candidateApplication = new CandidateApplication();
@@ -53,6 +65,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     candidateApplication.setCandidateId(applicationDTO.getCandidateId());
     candidateApplication.setCompanyId(applicationDTO.getCompanyId());
     candidateApplication.setJobReferenceId(applicationDTO.getJobReferenceId());
+    candidateApplication.setApplicationStatus(applicationDTO.getApplicationStatus());
 
     return candidateApplication;
   }
@@ -64,7 +77,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     applicationDTO.setCandidateId(application.getCandidateId());
     applicationDTO.setCompanyId(application.getCompanyId());
     applicationDTO.setJobReferenceId(application.getJobReferenceId());
-
+    applicationDTO.setApplicationStatus(application.getApplicationStatus());
     return applicationDTO;
   }
 
@@ -72,6 +85,5 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     return applicationList.stream().map(this::getApplicationDTO).collect(Collectors.toList());
   }
-
 
 }
