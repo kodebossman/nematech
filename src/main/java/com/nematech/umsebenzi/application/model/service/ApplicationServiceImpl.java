@@ -71,7 +71,6 @@ public class ApplicationServiceImpl implements ApplicationService {
   public List<ApplicationDTO> getApplicationListDTO(List<CandidateApplication> applicationList){
 
     return applicationList.stream().map(this::getApplicationDTO).collect(Collectors.toList());
-
   }
 
 

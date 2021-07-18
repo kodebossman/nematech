@@ -4,7 +4,11 @@ import com.nematech.umsebenzi.common.BaseDto;
 import com.nematech.umsebenzi.enums.Education;
 import com.nematech.umsebenzi.enums.JobCategory;
 import com.nematech.umsebenzi.enums.JobType;
+import com.nematech.umsebenzi.job.model.JobLocation;
+import com.nematech.umsebenzi.job.model.JobRole;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class JobDTO extends BaseDto {
@@ -18,4 +22,6 @@ public class JobDTO extends BaseDto {
   private double basicSalary;
   private Education educationLevelRequirement;
   private Long employerId;
+  private JobLocation jobLocation;
+  private List<JobRole> jobRoleList;
 }

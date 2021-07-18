@@ -1,7 +1,6 @@
 package com.nematech.umsebenzi.job.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.nematech.umsebenzi.common.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
