@@ -27,7 +27,7 @@ public class CandidateApplication extends BaseEntity {
   private String  jobReferenceId;
 
   @Column(name = "companyid")
-  private Long companyid;
+  private Long companyId;
 
   @Column(name = "skillName", nullable = true)
   private LocalDateTime applicationDateTime;
