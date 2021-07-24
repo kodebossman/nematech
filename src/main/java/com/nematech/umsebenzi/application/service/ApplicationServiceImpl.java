@@ -1,9 +1,7 @@
-package com.nematech.umsebenzi.application.model.service;
+package com.nematech.umsebenzi.application.service;
 
 import com.nematech.umsebenzi.application.model.CandidateApplication;
-import com.nematech.umsebenzi.application.model.dto.ApplicationDTO;
-import com.nematech.umsebenzi.candidate.model.Candidate;
-import com.nematech.umsebenzi.candidate.service.CandidateRepository;
+import com.nematech.umsebenzi.application.dto.ApplicationDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

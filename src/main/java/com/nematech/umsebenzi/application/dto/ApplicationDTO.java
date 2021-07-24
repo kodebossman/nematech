@@ -1,4 +1,4 @@
-package com.nematech.umsebenzi.application.model.dto;
+package com.nematech.umsebenzi.application.dto;
 
 import com.nematech.umsebenzi.common.BaseDto;
 import com.nematech.umsebenzi.enums.ApplicationStatus;

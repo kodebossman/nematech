@@ -1,26 +1,30 @@
 package com.nematech.umsebenzi.candidate.service;
 
 import com.nematech.umsebenzi.candidate.dto.CandidateDTO;
+import com.nematech.umsebenzi.candidate.dto.CandidateSkillsDTO;
 import com.nematech.umsebenzi.candidate.model.Candidate;
+import com.nematech.umsebenzi.candidate.model.CandidateSkills;
+import com.nematech.umsebenzi.config.TypeMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 @Transactional(propagation = Propagation.REQUIRED)
-public class CandidateServiceImpl implements CandidateService {
+@RequiredArgsConstructor
+public class ServiceImpl implements CandidateService, SkillsService {
 
   private final CandidateRepository candidateRepository;
-
-  public CandidateServiceImpl(CandidateRepository candidateRepository) {
-
-    this.candidateRepository = candidateRepository;
-  }
+  private final SkillsRepository skillsRepository;
+  private final TypeMapper mapper;
 
   @Override
   public CandidateDTO createCandidate(CandidateDTO candidateDTO) {
@@ -71,4 +75,24 @@ public class CandidateServiceImpl implements CandidateService {
     return candidate;
   }
 
+  @Override
+  public List<CandidateSkillsDTO> createSkills(List<CandidateSkillsDTO> skillsList) {
+
+    log.info("Register Customer :{}", skillsList);
+    return getCandidateSkillsListDTO(skillsRepository
+      .saveAll(getCandidateSkillsList(skillsList)));
+
+  }
+
+  @Override
+  public List<CandidateSkillsDTO> getSkillsList(Long candidateId) {
+    return null;
+  }
+
+  private List<CandidateSkills> getCandidateSkillsList(List<CandidateSkillsDTO> candidateSkillsListDTO) {
+    return  candidateSkillsListDTO.stream().map(mapper::map).collect(Collectors.toList());
+  }
+  private List<CandidateSkillsDTO> getCandidateSkillsListDTO(List<CandidateSkills> candidateSkillsList) {
+    return  candidateSkillsList.stream().map(mapper::map).collect(Collectors.toList());
+  }
 }

@@ -19,11 +19,14 @@ import javax.persistence.*;
 public class CandidateCV extends BaseEntity {
 
   @Column(name = "candidateid", nullable = false)
-  private String candidateId;
+  private Long candidateId;
 
   @Column(name = "certificatelevel")
   private Education educationLevel;
 
   @Column(name = "cvlocation")
   private String cvUrl;
+
+  @Column(name = "cvlocation")
+  private String cvCategory;
 }

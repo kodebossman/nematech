@@ -1,4 +1,4 @@
-package com.nematech.umsebenzi.application.model.service;
+package com.nematech.umsebenzi.application.service;
 
 import com.nematech.umsebenzi.application.model.CandidateApplication;
 import org.springframework.data.jpa.repository.JpaRepository;
