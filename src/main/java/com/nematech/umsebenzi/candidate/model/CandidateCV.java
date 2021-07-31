@@ -27,6 +27,6 @@ public class CandidateCV extends BaseEntity {
   @Column(name = "cvlocation")
   private String cvUrl;
 
-  @Column(name = "cvlocation")
+  @Column(name = "cvcategory")
   private String cvCategory;
 }

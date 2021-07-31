@@ -1,9 +1,7 @@
 package com.nematech.umsebenzi.candidate.service;
 
-import com.nematech.umsebenzi.candidate.dto.CandidateDTO;
-import com.nematech.umsebenzi.candidate.dto.CandidateSkillsDTO;
-import com.nematech.umsebenzi.candidate.model.Candidate;
-import com.nematech.umsebenzi.candidate.model.CandidateSkills;
+import com.nematech.umsebenzi.candidate.dto.*;
+import com.nematech.umsebenzi.candidate.model.*;
 import com.nematech.umsebenzi.config.TypeMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,14 +14,19 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @Service
 @Slf4j
 @Transactional(propagation = Propagation.REQUIRED)
 @RequiredArgsConstructor
-public class ServiceImpl implements CandidateService, SkillsService {
+public class ServiceImpl implements CandidateService{
 
   private final CandidateRepository candidateRepository;
   private final SkillsRepository skillsRepository;
+  private  final CertificateRepository certificateRepository;
+  private final CVRepository cvRepository;
+  private final ExpirienceRepository expirienceRepository;
+  private final RatingRepository ratingRepository;
   private final TypeMapper mapper;
 
   @Override
@@ -43,6 +46,31 @@ public class ServiceImpl implements CandidateService, SkillsService {
     }
 
     return candidate.map(this::getCandidateDto).orElse(null);
+  }
+
+  @Override
+  public CandidateInfoDTO getCandidateInfo(Long id) {
+
+    CandidateInfoDTO candidateInfoDTO = new CandidateInfoDTO();
+
+    Candidate candidate = candidateRepository.getById(id);
+    candidateInfoDTO.setCandidateDTO(getCandidateDto(candidate));
+    List<CandidateCertificate> candidateCertificateList = certificateRepository
+      .getCandidateCertificateByCandidateId(id);
+    candidateInfoDTO.setCandidateCertificateDTO(candidateCertificateList
+      .stream().map(mapper::map).collect(Collectors.toList()));
+    candidateInfoDTO.setCandidateCVDTO(mapper.map(cvRepository.getByCandidateId(id)));
+    List<CandidateExpirience> expirienceDTOList = expirienceRepository.getByCandidateId(id);
+    candidateInfoDTO.setExpirienceDTO(expirienceDTOList.
+      stream().map(mapper::map).collect(Collectors.toList()));
+    List<CandidateRating> candidateRatingsList = ratingRepository.getByCandidateId(id);
+    candidateInfoDTO.setRatingDTO(candidateRatingsList
+      .stream().map(mapper::map).collect(Collectors.toList()));
+    List<CandidateSkills> skillsDTOList = skillsRepository.getCandidateSkillsByCandidateId(id);
+    candidateInfoDTO.setSkillsDTOList(skillsDTOList.stream()
+      .map(mapper::map).collect(Collectors.toList()));
+
+    return candidateInfoDTO;
   }
 
   protected CandidateDTO getCandidateDto(Candidate candidate) {
@@ -75,24 +103,5 @@ public class ServiceImpl implements CandidateService, SkillsService {
     return candidate;
   }
 
-  @Override
-  public List<CandidateSkillsDTO> createSkills(List<CandidateSkillsDTO> skillsList) {
 
-    log.info("Register Customer :{}", skillsList);
-    return getCandidateSkillsListDTO(skillsRepository
-      .saveAll(getCandidateSkillsList(skillsList)));
-
-  }
-
-  @Override
-  public List<CandidateSkillsDTO> getSkillsList(Long candidateId) {
-    return null;
-  }
-
-  private List<CandidateSkills> getCandidateSkillsList(List<CandidateSkillsDTO> candidateSkillsListDTO) {
-    return  candidateSkillsListDTO.stream().map(mapper::map).collect(Collectors.toList());
-  }
-  private List<CandidateSkillsDTO> getCandidateSkillsListDTO(List<CandidateSkills> candidateSkillsList) {
-    return  candidateSkillsList.stream().map(mapper::map).collect(Collectors.toList());
-  }
 }
