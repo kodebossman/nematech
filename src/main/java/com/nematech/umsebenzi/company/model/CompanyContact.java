@@ -18,10 +18,13 @@ import javax.persistence.*;
 public class CompanyContact extends BaseEntity {
 
   @Column(name = "companyreferenceno", nullable = false, unique = true,length = 45)
-  private String jobReferenceNo;
+  private String companyReferenceNo;
 
   @Column(name = "username")
   private String userName;
+
+  @Column(name ="password")
+  private String password;
 
   @Column(name = "name")
   private String contactName;

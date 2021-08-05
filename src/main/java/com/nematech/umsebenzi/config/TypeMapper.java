@@ -2,6 +2,12 @@ package com.nematech.umsebenzi.config;
 
 import com.nematech.umsebenzi.candidate.dto.*;
 import com.nematech.umsebenzi.candidate.model.*;
+import com.nematech.umsebenzi.company.dto.CompanyDTO;
+import com.nematech.umsebenzi.company.model.Company;
+import com.nematech.umsebenzi.job.dto.JobDTO;
+import com.nematech.umsebenzi.job.dto.JobRoleDTO;
+import com.nematech.umsebenzi.job.model.Job;
+import com.nematech.umsebenzi.job.model.JobRole;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
@@ -18,5 +24,11 @@ public interface TypeMapper {
  CandidateCV map(CandidateCVDTO candidateCV);
  CandidateDTO map(Candidate candidate);
  Candidate map(CandidateDTO candidateDTO);
+ JobDTO map(Job job);
+ Job map(JobDTO jobDTO);
+ JobRole map(JobRoleDTO jobRoleDTO);
+ JobRoleDTO map(JobRole jobRole);
+ Company map(CompanyDTO companyDTO);
+ CompanyDTO map(Company company);
 }
 

@@ -4,6 +4,9 @@ import com.nematech.umsebenzi.candidate.model.Candidate;
 import com.nematech.umsebenzi.candidate.service.CandidateRepository;
 import com.nematech.umsebenzi.company.dto.CompanyDTO;
 import com.nematech.umsebenzi.company.model.Company;
+import com.nematech.umsebenzi.company.model.CompanyContact;
+import com.nematech.umsebenzi.config.TypeMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -16,21 +19,29 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 @Transactional(propagation = Propagation.REQUIRED)
 public class CompanyServiceImpl implements CompanyService {
 
   private final CompanyRepository companyRepository;
-
-  public CompanyServiceImpl(CompanyRepository companyRepository) {
-
-    this.companyRepository = companyRepository;
-  }
+  private final CompanyContactRepository contactRepository;
+  private final TypeMapper mapper;
 
   @Override
   public CompanyDTO createCompany(CompanyDTO companyDTO) {
 
     log.info("Register Company :{}", companyDTO);
-    return getCompanyDTO(companyRepository.save(getCompany(companyDTO)));
+    Company company = companyRepository.save(mapper.map(companyDTO));
+    if (!Objects.isNull(companyDTO.getCompanyContact())){
+
+      CompanyContact companyContact =contactRepository.save(companyDTO.getCompanyContact());
+      companyDTO.setCompanyContact(companyContact);
+    }
+    CompanyDTO companyObj = mapper.map(company);
+    companyObj.setCompanyContact(companyDTO.getCompanyContact());
+
+    return companyObj;
+
   }
 
   @Override
@@ -48,17 +59,6 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   public List<CompanyDTO> getCompanyList() {
     return getCompanyListDTO(companyRepository.findAll());
-  }
-
-  protected Company getCompany(CompanyDTO companyDTO){
-
-    Company company = new Company();
-    company.setCompanyAdress(companyDTO.getCompanyAdress());
-    company.setCompanyDescription(companyDTO.getCompanyDescription());
-    company.setCompanyReferenceId(companyDTO.getCompanyReferenceId());
-    company.setEmailAdress(companyDTO.getEmailAdress());
-    company.setMobileNumber(companyDTO.getMobileNumber());
-    return company;
   }
 
   protected CompanyDTO getCompanyDTO(Company company){

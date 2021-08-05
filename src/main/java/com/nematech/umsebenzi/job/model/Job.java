@@ -26,7 +26,7 @@ public class Job extends BaseEntity {
   @Column(name = "jobdescription")
   private String jobDescription;
 
-  @Column(name = "jobTitle", unique = false, nullable = false, length = 15)
+  @Column(name = "jobTitle")
   private String jobTitle;
 
   @Column(name = "jobtype")

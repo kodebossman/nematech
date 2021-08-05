@@ -43,8 +43,8 @@ public class JobController {
   }
 
   @GetMapping(value = "/list")
-  public ResponseEntity<List<JobDTO>> getCompanies() {
-    return new ResponseEntity<>( jobService.getJobList(), HttpStatus.CREATED);
+  public ResponseEntity<List<JobDTO>> getJobs() {
+    return new ResponseEntity<>( jobService.getJobList(), HttpStatus.OK);
   }
 
 }

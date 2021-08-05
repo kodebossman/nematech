@@ -1,5 +1,6 @@
 package com.nematech.umsebenzi.job.service;
 
+import com.nematech.umsebenzi.config.TypeMapper;
 import com.nematech.umsebenzi.job.dto.JobDTO;
 import com.nematech.umsebenzi.job.model.Job;
 import com.nematech.umsebenzi.job.model.JobLocation;
@@ -25,14 +26,15 @@ public class JobServiceImpl implements JobService {
   private final JobRepository jobRepository;
   private final JobRoleRepository jobRoleRepository;
   private final JobLocationRepository jobLocationRepository;
+  private final TypeMapper mapper;
 
   @Override
   public JobDTO createJob(JobDTO jobDTO) {
 
     log.info("Register Job :{}", jobDTO);
 
-    Job job = jobRepository.save(getJob(jobDTO));
-    getJobDTO(job);
+    Job job = jobRepository.save(mapper.map(jobDTO));
+    mapper.map(job);
 
     if (!Objects.isNull(jobDTO.getJobLocation())) {
       JobLocation jobLocation = new JobLocation();
@@ -60,7 +62,11 @@ public class JobServiceImpl implements JobService {
   public JobDTO getJob(String jobReferenceNumber) {
 
     Job job = jobRepository.findByJobReferenceNo(jobReferenceNumber);
-    JobDTO jobDTO = getJobDTO(job);
+
+    if(Objects.isNull(job)){
+      return null;
+    }
+    JobDTO jobDTO = mapper.map(job);
     List<JobRole> jobRoleList = jobRoleRepository.findByJobId(job.getId());
     if (!Objects.isNull(jobRoleList)) {
 
@@ -77,23 +83,6 @@ public class JobServiceImpl implements JobService {
   @Override
   public List<JobDTO> getJobList() {
     return getJobDTO(jobRepository.findAll());
-  }
-
-
-  public Job getJob(JobDTO jobDTO) {
-
-    Job job = new Job();
-    job.setBasicSalary(jobDTO.getBasicSalary());
-    job.setEducationLevelRequirement(jobDTO.getEducationLevelRequirement());
-    job.setEmployerId(jobDTO.getEmployerId());
-    job.setJobCategory(jobDTO.getJobCategory());
-    job.setJobDescription(jobDTO.getJobDescription());
-    job.setJobCategory(jobDTO.getJobCategory());
-    job.setJobReferenceNo(job.getJobReferenceNo());
-    job.setJobTitle(job.getJobTitle());
-    job.setYearsOfExpirience(job.getYearsOfExpirience());
-    job.setJobType(jobDTO.getJobType());
-    return job;
   }
 
   public JobDTO getJobDTO(Job job) {

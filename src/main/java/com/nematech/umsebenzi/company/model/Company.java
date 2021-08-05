@@ -22,6 +22,9 @@ public class Company extends BaseEntity {
   @Column(name = "companyreferenceNo", nullable = false, unique = true,length = 45)
   private String companyReferenceId;
 
+  @Column(name = "companyname")
+  private String companyName;
+
   @Column(name = "companydescription")
   private String companyDescription;
 

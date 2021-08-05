@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 @Slf4j
 @RestController
-@RequestMapping("/company")
+@RequestMapping("/companies")
 public class CompanyController {
 
   private final CompanyService companyService;
