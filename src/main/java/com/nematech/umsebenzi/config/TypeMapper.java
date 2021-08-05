@@ -16,5 +16,7 @@ public interface TypeMapper {
  CandidateExpirience map(ExpirienceDTO expirienceDTO);
  CandidateCVDTO map(CandidateCV candidateCV);
  CandidateCV map(CandidateCVDTO candidateCV);
+ CandidateDTO map(Candidate candidate);
+ Candidate map(CandidateDTO candidateDTO);
 }
 

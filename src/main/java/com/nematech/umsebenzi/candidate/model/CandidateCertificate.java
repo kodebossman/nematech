@@ -21,7 +21,7 @@ import javax.persistence.*;
 public class CandidateCertificate extends BaseEntity {
 
   @Column(name = "candidateid", nullable = false)
-  private String candidateId;
+  private Long candidateId;
 
   @Column(name = "certificatelevel")
   private Education educationLevel;

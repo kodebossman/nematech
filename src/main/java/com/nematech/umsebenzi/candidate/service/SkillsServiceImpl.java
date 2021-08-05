@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class SkillsServiceImpl implements SkillsService {
 
   private final SkillsRepository skillsRepository;
-  TypeMapper mapper;
+  private final TypeMapper mapper;
 
   @Override
   public List<CandidateSkillsDTO> createSkills(List<CandidateSkillsDTO> skillsList) {

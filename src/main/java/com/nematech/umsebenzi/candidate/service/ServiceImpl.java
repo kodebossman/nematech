@@ -33,8 +33,8 @@ public class ServiceImpl implements CandidateService{
   public CandidateDTO createCandidate(CandidateDTO candidateDTO) {
 
     log.info("Register Customer :{}", candidateDTO);
-
-    return getCandidateDto(candidateRepository.save(getCandidate(candidateDTO)));
+  Candidate candidate = candidateRepository.save(mapper.map(candidateDTO));
+   return mapper.map(candidate);
   }
 
   @Override
@@ -54,7 +54,7 @@ public class ServiceImpl implements CandidateService{
     CandidateInfoDTO candidateInfoDTO = new CandidateInfoDTO();
 
     Candidate candidate = candidateRepository.getById(id);
-    candidateInfoDTO.setCandidateDTO(getCandidateDto(candidate));
+    candidateInfoDTO.setCandidateDTO(mapper.map(candidate));
     List<CandidateCertificate> candidateCertificateList = certificateRepository
       .getCandidateCertificateByCandidateId(id);
     candidateInfoDTO.setCandidateCertificateDTO(candidateCertificateList
@@ -88,20 +88,7 @@ public class ServiceImpl implements CandidateService{
     return candidateDTO;
   }
 
-  protected Candidate getCandidate(CandidateDTO candidateDTO) {
 
-    Candidate candidate = new Candidate();
-    candidate.setAdress(candidateDTO.getAdress());
-    candidate.setEmailAdress(candidateDTO.getEmailAdress());
-    candidate.setJobType(candidateDTO.getJobType());
-    candidate.setMobileNo(candidateDTO.getMobileNo());
-    candidate.setQualification(candidateDTO.getQualification());
-    candidate.setSurname(candidateDTO.getSurname());
-    candidate.setIdNumber(candidateDTO.getSurname());
-    candidate.setName(candidateDTO.getName());
-
-    return candidate;
-  }
 
 
 }

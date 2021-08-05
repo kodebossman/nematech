@@ -10,7 +10,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "candidateratings", indexes = {@Index(name = "indx_candidaterating", columnList = "candidateid", unique = true)})
+@Table(name = "candidateratings", indexes = {@Index(name = "indx_candidaterating", columnList = "id", unique = true)})
 @Getter
 @Setter
 @ToString

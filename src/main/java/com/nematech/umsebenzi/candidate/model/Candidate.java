@@ -41,7 +41,7 @@ public class Candidate extends BaseEntity {
   @Column(name = "emailAdress")
   private String emailAdress;
 
-  @Column(name = "adress", unique = true)
+  @Column(name = "adress")
   private String adress;
 
 }
